@@ -22,12 +22,12 @@
             android:textColor="#393E46"
             android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView8"
+            app:layout_constraintEnd_toStartOf="@+id/workoutCount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/workoutCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -62,7 +62,7 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="#B89769"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintStart_toEndOf="@+id/workoutCount"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/delete_black_24dp" />
 
