@@ -28,7 +28,8 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true"
-            android:label="Home">
+            android:label="Home"
+            android:screenOrientation="sensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
