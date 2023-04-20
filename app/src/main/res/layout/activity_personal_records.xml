@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScreenPR"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222831"
+    tools:context=".PersonalRecordsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#222831"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/prsContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="408dp"
+                    android:background="#393E46">
+
+                    <TextView
+                        android:id="@+id/deadLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:text="Dead Lifts"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/benchPrevWeight2" />
+
+                    <TextView
+                        android:id="@+id/deadCurrentReps2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintEnd_toStartOf="@+id/deadPrevWeight2"
+                        app:layout_constraintStart_toEndOf="@+id/deadPrevLabel2"
+                        app:layout_constraintTop_toBottomOf="@+id/deadPrevReps2" />
+
+                    <TextView
+                        android:id="@+id/deadCurrentWeight2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/deadPrevWeight2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/deadPrevReps2"
+                        app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
+
+                    <TextView
+                        android:id="@+id/deadCurrentLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Current"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/deadPrevLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/deadPrevReps2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
+
+                    <TextView
+                        android:id="@+id/deadPrevLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Previous"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/deadCurrentReps2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/deadCurrentLabel2" />
+
+                    <TextView
+                        android:id="@+id/deadPrevReps2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/deadCurrentReps2"
+                        app:layout_constraintEnd_toStartOf="@+id/deadCurrentWeight2"
+                        app:layout_constraintStart_toEndOf="@+id/deadCurrentLabel2"
+                        app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
+
+                    <TextView
+                        android:id="@+id/deadPrevWeight2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/deadCurrentReps2"
+                        app:layout_constraintTop_toBottomOf="@+id/deadCurrentWeight2" />
+
+                    <TextView
+                        android:id="@+id/benchLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:text="Bench"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/squatPrevLabel2" />
+
+                    <TextView
+                        android:id="@+id/benchCurrentLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Current"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/benchPrevLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/benchCurrentReps2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/benchLabel2" />
+
+                    <TextView
+                        android:id="@+id/benchCurrentWeight2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/benchPrevWeight2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/benchCurrentReps2"
+                        app:layout_constraintTop_toBottomOf="@+id/benchLabel2" />
+
+                    <TextView
+                        android:id="@+id/benchPrevWeight2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/deadLabel2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/benchPrevReps2"
+                        app:layout_constraintTop_toBottomOf="@+id/benchCurrentWeight2" />
+
+                    <TextView
+                        android:id="@+id/benchPrevLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Previous"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/deadLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/benchPrevReps2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/benchCurrentLabel2" />
+
+                    <TextView
+                        android:id="@+id/benchPrevReps2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/deadLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/benchPrevWeight2"
+                        app:layout_constraintStart_toEndOf="@+id/benchPrevLabel2"
+                        app:layout_constraintTop_toBottomOf="@+id/benchCurrentReps2" />
+
+                    <TextView
+                        android:id="@+id/benchCurrentReps2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/benchPrevReps2"
+                        app:layout_constraintEnd_toStartOf="@+id/benchCurrentWeight2"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/benchCurrentLabel2"
+                        app:layout_constraintTop_toBottomOf="@+id/benchLabel2" />
+
+                    <TextView
+                        android:id="@+id/squatLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:text="Squat"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/squatPrevLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Previous"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/benchLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/squatPrevReps2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentLabel2" />
+
+                    <TextView
+                        android:id="@+id/squatCurrentLabel2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Current"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/squatPrevLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/squatCurrentReps2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/squatLabel2" />
+
+                    <TextView
+                        android:id="@+id/squatCurrentWeight2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/squatPrevWeight2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/squatCurrentReps2"
+                        app:layout_constraintTop_toBottomOf="@+id/squatLabel2" />
+
+                    <TextView
+                        android:id="@+id/squatPrevReps2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/benchLabel2"
+                        app:layout_constraintEnd_toStartOf="@+id/squatPrevWeight2"
+                        app:layout_constraintStart_toEndOf="@+id/squatPrevLabel2"
+                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentReps2" />
+
+                    <TextView
+                        android:id="@+id/squatPrevWeight2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@id/benchLabel2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/squatPrevReps2"
+                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentWeight2" />
+
+                    <TextView
+                        android:id="@+id/squatCurrentReps2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/squatPrevReps2"
+                        app:layout_constraintEnd_toStartOf="@+id/squatCurrentWeight2"
+                        app:layout_constraintStart_toEndOf="@+id/squatCurrentLabel2"
+                        app:layout_constraintTop_toBottomOf="@+id/squatLabel2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="153dp"
+                    android:background="#393E46">
+
+                    <TextView
+                        android:id="@+id/userCurrentReps"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/userPrevReps"
+                        app:layout_constraintEnd_toStartOf="@+id/userCurrentWeight"
+                        app:layout_constraintStart_toEndOf="@+id/userCurrentLabel"
+                        app:layout_constraintTop_toBottomOf="@+id/userExercise" />
+
+                    <TextView
+                        android:id="@+id/userPrevLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Previous"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/userPrevReps"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/userCurrentLabel" />
+
+                    <TextView
+                        android:id="@+id/userCurrentLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:gravity="center"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        android:text="Current"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/userPrevLabel"
+                        app:layout_constraintEnd_toStartOf="@+id/userCurrentReps"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/userExercise" />
+
+                    <TextView
+                        android:id="@+id/userCurrentWeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintBottom_toTopOf="@+id/userPrevWeight"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/userCurrentReps"
+                        app:layout_constraintTop_toBottomOf="@+id/userExercise" />
+
+                    <TextView
+                        android:id="@+id/userPrevReps"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintEnd_toStartOf="@+id/userPrevWeight"
+                        app:layout_constraintStart_toEndOf="@+id/userPrevLabel"
+                        app:layout_constraintTop_toBottomOf="@+id/userCurrentReps" />
+
+                    <TextView
+                        android:id="@+id/userPrevWeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="#B89769"
+                        android:minWidth="70dp"
+                        android:minHeight="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/userPrevReps"
+                        app:layout_constraintTop_toBottomOf="@+id/userCurrentWeight" />
+
+                    <EditText
+                        android:id="@+id/userExercise"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#B89769"
+                        android:backgroundTint="#B89769"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="textPersonName"
+                        android:text="Select Exercise"
+                        android:textColor="#393E46"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/userCurrentReps"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/searchTrackButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:backgroundTint="#B89769"
+                        android:text="Search"
+                        android:textColor="#393E46"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/userCurrentWeight"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/userExercise"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

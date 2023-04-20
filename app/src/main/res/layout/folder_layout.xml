@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222831">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#393E46">
+
+        <EditText
+            android:id="@+id/workoutTitle"
+            android:layout_width="400dp"
+            android:layout_height="110dp"
+            android:background="#B89769"
+            android:imeOptions="actionDone"
+            android:minHeight="48dp"
+            android:textAlignment="center"
+            tools:layout_editor_absoluteX="80dp"
+            tools:layout_editor_absoluteY="397dp" />
+
+        <EditText
+            android:id="@+id/setsReps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#B89769"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:text="Reps"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="314dp" />
+
+        <EditText
+            android:id="@+id/setsWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#B89769"
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:text="Weight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="728dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
