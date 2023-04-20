@@ -13,7 +13,7 @@ public class PrevWorkoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prev_workout);
+        setContentView(R.layout.activity_view_workout);
         // get the workout text from the Intent
         String workoutText = getIntent().getStringExtra("workoutText");
         String workoutTitle = getIntent().getStringExtra("workoutTitle");

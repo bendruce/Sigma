@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="#222831"
     android:elevation="50dp"
+    android:isScrollContainer="true"
     tools:context=".HomeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
