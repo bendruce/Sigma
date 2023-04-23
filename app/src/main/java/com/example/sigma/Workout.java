@@ -16,6 +16,7 @@ public class Workout {
 
     public void addExercise(com.example.sigma.Exercise exercise) {
         exercises.add(exercise);
+
         //Log.d("Workout", "Added exercise: " + exercise.getName());
         //Log.d("Workout", "Number of exercises: " + exercises.size());
     }

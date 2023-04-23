@@ -4,19 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,16 +25,22 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private EditText editTextExerciseName;
     private EditText editTextWorkoutTitle;
     private Button buttonAddExercise;
+    private TextView editTextWorkoutDuration;
     private RecyclerView recyclerViewExercises;
     private RecyclerView recyclerViewSets;
     private Workout workout;
     private List<Set> sets = new ArrayList<>();
     private SetAdapter setAdapter;
+
+    private long timerValue;
+
+
 
     private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
@@ -49,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         editTextWorkoutTitle = findViewById(R.id.WorkoutTitle);
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name);
         buttonAddExercise = findViewById(R.id.button_add_exercise);
+        editTextWorkoutDuration = findViewById(R.id.workoutDuration);
         recyclerViewExercises = findViewById(R.id.recycler_view_exercises);
+
 
         // create a new Workout object
         workout = new Workout();
@@ -61,6 +70,36 @@ public class MainActivity extends AppCompatActivity {
 
         // create an instance of InputMethodManager
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // create a new CountDownTimer object with a 30 second duration and 1 second intervals
+        CountDownTimer timer = new CountDownTimer(30000000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // update the timer value
+                timerValue = millisUntilFinished;
+                long elapsedMillis = 30000000 - timerValue;
+                // convert milliseconds to hours, minutes, and seconds
+                long hours = TimeUnit.MILLISECONDS.toHours(elapsedMillis);
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMillis) - TimeUnit.HOURS.toMinutes(hours);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(hours);
+
+                String elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                editTextWorkoutDuration.setText(elapsedTime);
+            }
+
+            @Override
+            public void onFinish() {
+                // do something when the timer finishes
+            }
+        };
+        // start the timer
+        timer.start();
+
+
+
+
+
+
 
         // set an OnFocusChangeListener to hide the keyboard when the user clicks off the editTextExerciseName
         editTextExerciseName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -108,10 +147,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    long elapsedMillis = 30000000 - timerValue;
+                    // convert milliseconds to hours, minutes, and seconds
+                    long hours = TimeUnit.MILLISECONDS.toHours(elapsedMillis);
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMillis) - TimeUnit.HOURS.toMinutes(hours);
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(hours);
+
+                    String elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
 
                     StringBuilder sb = new StringBuilder();
-// iterate over all the exercises in the workout
+                    // iterate over all the exercises in the workout
                     databaseRef.child("workouts").child("date").setValue((LocalDate.now()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                    databaseRef.child("workouts").child("length").setValue(elapsedTime);
 
                     for (Exercise exercise : workout.getExercises()) {
                         DatabaseReference exerciseRef = databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("exercises").push();
