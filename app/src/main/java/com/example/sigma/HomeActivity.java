@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         workoutRecyclerView.setAdapter(workoutAdapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("https://sigma-9eb55-default-rtdb.firebaseio.com/workouts");
+        //DatabaseReference usersRef = database.getReference("https://sigma-9eb55-default-rtdb.firebaseio.com/workouts");
 
 
         // find the addWorkoutFolderBtn button by its ID
