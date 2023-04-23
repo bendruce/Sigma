@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,7 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private Workout workout;
     private List<Set> sets = new ArrayList<>();
     private SetAdapter setAdapter;
+
+    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+
+
 
     @SuppressLint({"MissingInflateParams", "MissingInflatedId"})
     @Override
@@ -90,32 +99,58 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
+
+
         // find the finishWorkoutButton and set an OnClickListener
         Button finishWorkoutButton = findViewById(R.id.finishWorkoutButton);
         finishWorkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuilder sb = new StringBuilder();
-                // iterate over all the exercises in the workout
-                for (Exercise exercise : workout.getExercises()) {
-                    sb.append(exercise.getName()).append(":").append("\n"); // add the exercise name to the StringBuilder
-                    // iterate over all the sets in the exercise
-                    for (Set set : exercise.getSets()) {
-                        sb.append(" Set ").append(set.getSetNumber()).append(": ").append(set.getReps()).append(" x ")
-                                .append(set.getWeight()).append("Kg").append("\n"); // add the set information to the StringBuilder
-                    }
-                    sb.append("\n"); // add a new line after each exercise
-                }
-                String workoutText = sb.toString(); // convert the StringBuilder to a String
-                // display the workout text, e.g. in a Toast message
-                Toast.makeText(MainActivity.this, workoutText, Toast.LENGTH_LONG).show();
-                Intent i = new Intent(MainActivity.this, PrevWorkoutActivity.class);
-                i.putExtra("workoutText", workoutText);
-                i.putExtra("workoutTitle", editTextWorkoutTitle.getText().toString());
-                startActivity(i);
+                try {
 
+                    StringBuilder sb = new StringBuilder();
+// iterate over all the exercises in the workout
+                    for (Exercise exercise : workout.getExercises()) {
+
+                        // add the exercise name to the StringBuilder
+                        sb.append(exercise.getName()).append(":").append("\n");
+                        // iterate over all the sets in the exercise
+                        for (Set set : exercise.getSets()) {
+                            // add the set information to the StringBuilder
+                            sb.append(" Set ").append(set.getSetNumber()).append(": ").append(set.getReps()).append(" x ")
+                                    .append(set.getWeight()).append("Kg").append("\n");
+                        }
+                        // add a new line after each exercise
+                        sb.append("\n");
+
+                    }
+
+                    // convert the StringBuilder to a String
+                    String workoutText = sb.toString();
+                    Log.i("LOOK HERE",workoutText);
+                    // display the workout text, e.g. in a Toast message
+                    Toast.makeText(MainActivity.this, workoutText, Toast.LENGTH_LONG).show();
+                    // create an intent to start the PrevWorkoutActivity
+                    Intent intent = new Intent(MainActivity.this, PrevWorkoutActivity.class);
+                    // add the workout text and title as extras
+                    intent.putExtra("workoutText", workoutText);
+                    intent.putExtra("workoutTitle", editTextWorkoutTitle.getText().toString());
+                    // start the activity
+                    databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    // handle any exceptions that occur during the workout data creation
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+
 
 
 
