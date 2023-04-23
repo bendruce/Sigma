@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,30 +41,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        /*
-        // create some sample data for folders and workouts
-
-        folders.add(new FolderItem("Folder 1", 5));
-        folders.add(new FolderItem("Folder 2", 3));
 
 
-        workouts.add(new WorkoutItem("Workout 1", "01/01/2022", "30 mins"));
-        workouts.add(new WorkoutItem("Workout 2", "02/01/2022", "45 mins"));
-        */
-        // set up the folder RecyclerView and adapter
-
-
-
-
-
-        /*
         folders = new ArrayList<>();
-        folderRecyclerView = findViewById(R.id.WorkoutsRecyclerView);
+        folderRecyclerView = findViewById(R.id.FoldersRecyclerView);
         folderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         folderAdapter = new FolderAdapter(folders);
         folderRecyclerView.setAdapter(folderAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference foldersRef = database.getReference("workouts");
+        DatabaseReference foldersRef = database.getReference("folders");
 
 
         // attach a listener to the folders reference to detect when the data changes
@@ -74,11 +61,13 @@ public class HomeActivity extends AppCompatActivity {
 
                 // iterate over each child of the folders reference
                 for (DataSnapshot folderSnapshot : dataSnapshot.getChildren()) {
-                    // parse the data in the folderSnapshot into a FolderItem object
-                    //FolderItem folderItem = folderSnapshot.getValue(FolderItem.class);
+                    String folderName = folderSnapshot.getValue(String.class);
+                    FolderItem folderItem = new FolderItem(folderName, 0);
 
-                    // add the folderItem to the list of folders
-                    //folders.add(folderItem);
+                    Toast.makeText(HomeActivity.this, "Folder: " + folderItem, Toast.LENGTH_SHORT).show();
+
+                    folders.add(folderItem);
+
                 }
 
                 // notify the folder adapter that the data has changed
@@ -90,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
                 // handle any errors
             }
         });
-        */
+
         // create a reference to the Firebase database location where the workouts are stored
         workouts = new ArrayList<>();
         // set up the workout RecyclerView and adapter
@@ -117,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                     String workoutLength = lengthSnapshot.getValue(String.class);
                     String workoutFolder = folderSnapshot.getValue(String.class);
 
-                    if (workoutFolder == "Home"){
+                    if (workoutFolder.equals("Home")){
                         WorkoutItem workoutItem = new WorkoutItem(workoutName, workoutDate, workoutLength);
                         workouts.add(workoutItem);
                     }
@@ -161,7 +150,8 @@ public class HomeActivity extends AppCompatActivity {
                         String folderName = input.getText().toString();
                         // do something with the folderName
                         Toast.makeText(HomeActivity.this, "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
-                        //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
+
+                        databaseRef.child("folders").child("folderName").setValue(folderName);
 
                     }
                 });
