@@ -20,6 +20,8 @@ import com.example.sigma.PersonalRecordsActivity;
 import com.example.sigma.R;
 import com.example.sigma.WorkoutAdapter;
 import com.example.sigma.WorkoutItem;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private FolderAdapter folderAdapter;
     private WorkoutAdapter workoutAdapter;
+
+    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +65,12 @@ public class HomeActivity extends AppCompatActivity {
         workoutAdapter = new WorkoutAdapter(workouts);
         workoutRecyclerView.setAdapter(workoutAdapter);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("https://sigma-9eb55-default-rtdb.firebaseio.com/workouts");
+
+
         // find the addWorkoutFolderBtn button by its ID
         Button addWorkoutFolderBtn = findViewById(R.id.addWrkoutFolderBtn);
-
         // set the click listener for the addWorkoutFolderBtn button
         addWorkoutFolderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +95,7 @@ public class HomeActivity extends AppCompatActivity {
                         String folderName = input.getText().toString();
                         // do something with the folderName
                         Toast.makeText(HomeActivity.this, "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
+                        //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
 
                     }
                 });
