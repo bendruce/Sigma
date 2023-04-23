@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
@@ -23,6 +26,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     public WorkoutAdapter(List<WorkoutItem> workoutItems) {
         this.workoutItems = workoutItems;
     }
+
+    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
     @NonNull
     @Override
@@ -65,7 +70,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                         String folderName = input.getText().toString();
                         // do something with the folderName
                         Toast.makeText(holder.itemView.getContext(), "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
-                        //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
+                        databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
 
                     }
                 });
