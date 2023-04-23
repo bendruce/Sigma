@@ -76,6 +76,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/edit_text_exercise_name"
                     tools:layout_conversion_absoluteHeight="48dp"
                     tools:layout_conversion_absoluteWidth="836dp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     android:background="#B89769"
                     android:gravity="center"
@@ -113,7 +114,7 @@
                     android:textColor="#393E46"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView8"
+                    app:layout_constraintEnd_toStartOf="@+id/textStopWatchView"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/WorkoutTitle"
                     tools:layout_conversion_absoluteHeight="29dp"
@@ -140,19 +141,51 @@
                     tools:layout_conversion_absoluteWidth="868dp" />
 
                 <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/stopWatchView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     android:background="#B89769"
-                    android:text="StopWatch"
+                    android:text="Text"
                     android:textColor="#393E46"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/stopWatchButton"
+                    app:layout_constraintStart_toEndOf="@+id/textStopWatchView"
+                    app:layout_constraintTop_toBottomOf="@+id/WorkoutTitle"
+                    app:layout_constraintVertical_bias="0.588" />
+
+                <ImageButton
+                    android:id="@+id/stopWatchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="#393E46"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/stopWatchView"
+                    app:layout_constraintTop_toBottomOf="@+id/WorkoutTitle"
+                    app:srcCompat="@drawable/update_black_24dp" />
+
+                <TextView
+                    android:id="@+id/textStopWatchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Stop Watch:"
+                    android:textColor="#B89769"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/stopWatchView"
                     app:layout_constraintStart_toEndOf="@+id/workoutDuration"
-                    app:layout_constraintTop_toBottomOf="@+id/WorkoutTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/WorkoutTitle"
+                    app:layout_constraintVertical_bias="0.72" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

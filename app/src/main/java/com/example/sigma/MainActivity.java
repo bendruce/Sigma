@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,13 +41,18 @@ public class MainActivity extends AppCompatActivity {
 
     private long timerValue;
 
+    private TextView stopWatchView;
+    private ImageButton stopWatchButton;
+    private CountDownTimer stopWatch;
+    private long startTime;
+
 
 
     private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
 
 
-    @SuppressLint({"MissingInflateParams", "MissingInflatedId"})
+    @SuppressLint({"MissingInflateParams", "MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +101,45 @@ public class MainActivity extends AppCompatActivity {
         // start the timer
         timer.start();
 
+        stopWatchView = findViewById(R.id.stopWatchView);
+        stopWatchButton = findViewById(R.id.stopWatchButton);
 
+        // create a new CountDownTimer object with a 1 second duration and 1 second intervals
+        stopWatch = new CountDownTimer(1000000000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // calculate the elapsed time
+
+                long elapsedTime = System.currentTimeMillis() - startTime;
+                // convert milliseconds to hours, minutes, and seconds
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedTime);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(minutes);
+
+                String elapsedTimeString = String.format("%02d:%02d" , minutes, seconds);
+                stopWatchView.setText(elapsedTimeString);
+            }
+
+            @Override
+            public void onFinish() {
+                // do something when the timer finishes
+            }
+        };
+
+        // set the start time to the current time
+        startTime = System.currentTimeMillis();
+
+        // start the timer
+        stopWatch.start();
+
+        // set up the click listener for the stopWatchButton
+        stopWatchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // reset the start time to the current time
+                startTime = System.currentTimeMillis();
+            }
+        });
 
 
 
