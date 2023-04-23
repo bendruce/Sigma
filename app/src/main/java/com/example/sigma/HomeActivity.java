@@ -13,15 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.sigma.FolderAdapter;
-import com.example.sigma.FolderItem;
-import com.example.sigma.MainActivity;
-import com.example.sigma.PersonalRecordsActivity;
-import com.example.sigma.R;
-import com.example.sigma.WorkoutAdapter;
-import com.example.sigma.WorkoutItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,30 +39,100 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        /*
         // create some sample data for folders and workouts
-        folders = new ArrayList<>();
+
         folders.add(new FolderItem("Folder 1", 5));
         folders.add(new FolderItem("Folder 2", 3));
 
-        workouts = new ArrayList<>();
+
         workouts.add(new WorkoutItem("Workout 1", "01/01/2022", "30 mins"));
         workouts.add(new WorkoutItem("Workout 2", "02/01/2022", "45 mins"));
-
+        */
         // set up the folder RecyclerView and adapter
+
+
+
+
+
+        /*
+        folders = new ArrayList<>();
         folderRecyclerView = findViewById(R.id.WorkoutsRecyclerView);
         folderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         folderAdapter = new FolderAdapter(folders);
         folderRecyclerView.setAdapter(folderAdapter);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference foldersRef = database.getReference("workouts");
 
+
+        // attach a listener to the folders reference to detect when the data changes
+        foldersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // clear the existing list of folders
+                folders.clear();
+
+                // iterate over each child of the folders reference
+                for (DataSnapshot folderSnapshot : dataSnapshot.getChildren()) {
+                    // parse the data in the folderSnapshot into a FolderItem object
+                    //FolderItem folderItem = folderSnapshot.getValue(FolderItem.class);
+
+                    // add the folderItem to the list of folders
+                    //folders.add(folderItem);
+                }
+
+                // notify the folder adapter that the data has changed
+                folderAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // handle any errors
+            }
+        });
+        */
+        // create a reference to the Firebase database location where the workouts are stored
+        workouts = new ArrayList<>();
         // set up the workout RecyclerView and adapter
         workoutRecyclerView = findViewById(R.id.WorkoutsRecyclerView);
         workoutRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         workoutAdapter = new WorkoutAdapter(workouts);
         workoutRecyclerView.setAdapter(workoutAdapter);
+        DatabaseReference workoutsRef = FirebaseDatabase.getInstance().getReference("workouts");
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //DatabaseReference usersRef = database.getReference("https://sigma-9eb55-default-rtdb.firebaseio.com/workouts");
+        // attach a listener to the workouts reference to detect when the data changes
+        workoutsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // clear the existing list of workouts
+                workouts.clear();
+
+                // iterate over each child of the workouts reference
+                for (DataSnapshot workoutSnapshot : dataSnapshot.getChildren()) {
+                    String workoutName = workoutSnapshot.getKey();
+                    DataSnapshot dateSnapshot = workoutSnapshot.child("date");
+                    DataSnapshot lengthSnapshot = workoutSnapshot.child("length");
+                    DataSnapshot folderSnapshot = workoutSnapshot.child("folder");
+                    String workoutDate = dateSnapshot.getValue(String.class);
+                    String workoutLength = lengthSnapshot.getValue(String.class);
+                    String workoutFolder = folderSnapshot.getValue(String.class);
+
+                    if (workoutFolder == "Home"){
+                        WorkoutItem workoutItem = new WorkoutItem(workoutName, workoutDate, workoutLength);
+                        workouts.add(workoutItem);
+                    }
+
+                }
+
+                // notify the workout adapter that the data has changed
+                workoutAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // handle any errors
+            }
+        });
 
 
         // find the addWorkoutFolderBtn button by its ID

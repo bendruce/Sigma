@@ -1,17 +1,24 @@
 package com.example.sigma;
 
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
     private List<WorkoutItem> workoutItems;
+
+    private ImageButton moveFolderBtn;
 
     public WorkoutAdapter(List<WorkoutItem> workoutItems) {
         this.workoutItems = workoutItems;
@@ -30,10 +37,57 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         holder.nameTextView.setText(workoutItem.getName());
         holder.dateTextView.setText(workoutItem.getDate());
         holder.lengthTextView.setText(workoutItem.getLength());
+
+        // find the addWorkoutFolderBtn button by its ID
+        moveFolderBtn = holder.itemView.findViewById(R.id.moveFolderButton);
+
+        // set the click listener for the addWorkoutFolderBtn button
+        moveFolderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // create an AlertDialog Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext(), R.style.CustomAlertDialogTheme);
+
+
+                // set the title and message
+                builder.setTitle("Move Folder");
+                builder.setMessage("Move to Folder:");
+
+                // create a EditText view to get user input
+                final EditText input = new EditText(holder.itemView.getContext());
+                builder.setView(input);
+
+                // set the positive button action
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // get the user input text
+                        String folderName = input.getText().toString();
+                        // do something with the folderName
+                        Toast.makeText(holder.itemView.getContext(), "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
+                        //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
+
+                    }
+                });
+
+                // set the negative button action
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // user cancelled the dialog
+                    }
+                });
+
+                // create and show the dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
+
         return workoutItems.size();
     }
     public class WorkoutViewHolder extends RecyclerView.ViewHolder {

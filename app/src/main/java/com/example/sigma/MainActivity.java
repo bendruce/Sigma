@@ -202,8 +202,9 @@ public class MainActivity extends AppCompatActivity {
 
                     StringBuilder sb = new StringBuilder();
                     // iterate over all the exercises in the workout
-                    databaseRef.child("workouts").child("date").setValue((LocalDate.now()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                    databaseRef.child("workouts").child("length").setValue(elapsedTime);
+                    databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("date").setValue((LocalDate.now()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                    databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("length").setValue(elapsedTime);
+                    databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("folder").setValue("Home");
 
                     for (Exercise exercise : workout.getExercises()) {
                         DatabaseReference exerciseRef = databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("exercises").push();

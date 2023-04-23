@@ -39,6 +39,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         private TextView folderNameTextView;
         private TextView numberOfWorkoutsTextView;
 
+
         public FolderViewHolder(@NonNull View itemView) {
             super(itemView);
             folderNameTextView = itemView.findViewById(R.id.folderName);

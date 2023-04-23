@@ -53,7 +53,7 @@
             android:text="Date"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
+            app:layout_constraintEnd_toStartOf="@+id/moveFolderButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/workoutTitle" />
 
@@ -66,12 +66,12 @@
             android:layout_marginBottom="16dp"
             android:background="#B89769"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButton"
+            app:layout_constraintStart_toEndOf="@+id/moveFolderButton"
             app:layout_constraintTop_toBottomOf="@+id/workoutTitle"
             app:srcCompat="@drawable/delete_black_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/moveFolderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
