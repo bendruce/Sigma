@@ -4,28 +4,25 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -114,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
                     StringBuilder sb = new StringBuilder();
 // iterate over all the exercises in the workout
+                    databaseRef.child("workouts").child("date").setValue((LocalDate.now()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
                     for (Exercise exercise : workout.getExercises()) {
                         DatabaseReference exerciseRef = databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("exercises").push();
                         exerciseRef.child("exercise name").setValue(exercise.getName());
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("workoutText", workoutText);
                     intent.putExtra("workoutTitle", editTextWorkoutTitle.getText().toString());
                     // start the activity
-                    databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
+                    //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
                     startActivity(intent);
                 } catch (Exception e) {
                     // handle any exceptions that occur during the workout data creation
