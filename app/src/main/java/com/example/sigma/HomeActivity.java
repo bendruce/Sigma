@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
                     String folderName = folderSnapshot.getValue(String.class);
                     FolderItem folderItem = new FolderItem(folderName, 0);
 
-                    Toast.makeText(HomeActivity.this, "Folder: " + folderItem, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(HomeActivity.this, "Folder: " + folderItem, Toast.LENGTH_SHORT).show();
 
                     folders.add(folderItem);
 
@@ -126,13 +126,12 @@ public class HomeActivity extends AppCompatActivity {
 
         // find the addWorkoutFolderBtn button by its ID
         Button addWorkoutFolderBtn = findViewById(R.id.addWrkoutFolderBtn);
-        // set the click listener for the addWorkoutFolderBtn button
+// set the click listener for the addWorkoutFolderBtn button
         addWorkoutFolderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // create an AlertDialog Builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomAlertDialogTheme);
-
 
                 // set the title and message
                 builder.setTitle("Enter Folder Name:");
@@ -147,12 +146,38 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // get the user input text
-                        String folderName = input.getText().toString();
-                        // do something with the folderName
-                        Toast.makeText(HomeActivity.this, "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
+                        final String folderName = input.getText().toString();
 
-                        databaseRef.child("folders").child("folderName").setValue(folderName);
+                        // retrieve the list of folder names from the Firebase Realtime Database
+                        DatabaseReference foldersRef = databaseRef.child("folders");
+                        foldersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                boolean folderExists = false;
+                                for (DataSnapshot folderSnapshot : dataSnapshot.getChildren()) {
+                                    String existingFolderName = folderSnapshot.getValue(String.class);
+                                    if (existingFolderName.equals(folderName)) {
+                                        folderExists = true;
+                                        break;
+                                    }
+                                }
 
+                                if (folderExists) {
+                                    // if the folder name already exists, show an error message
+                                    Toast.makeText(HomeActivity.this, "Folder name already exists!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // if the folder name does not exist, add it to the Firebase Realtime Database
+                                    String key = databaseRef.child("folders").push().getKey();
+                                    databaseRef.child("folders").child(key).setValue(folderName);
+                                    Toast.makeText(HomeActivity.this, "Folder added successfully!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // handle any errors
+                            }
+                        });
                     }
                 });
 
@@ -169,6 +194,7 @@ public class HomeActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
     }
 
 
