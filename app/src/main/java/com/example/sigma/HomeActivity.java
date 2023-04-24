@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                     String workoutLength = lengthSnapshot.getValue(String.class);
                     String workoutFolder = folderSnapshot.getValue(String.class);
 
-                    if (workoutFolder.equals("Home")){
+                    if ("Home".equals(workoutFolder)) {
                         WorkoutItem workoutItem = new WorkoutItem(workoutName, workoutDate, workoutLength);
                         workouts.add(workoutItem);
                     }

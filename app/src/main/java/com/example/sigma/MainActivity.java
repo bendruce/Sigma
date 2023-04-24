@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewExercises.setLayoutManager(new LinearLayoutManager(this));
 
         // create an instance of InputMethodManager
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         // create a new CountDownTimer object with a 30 second duration and 1 second intervals
         CountDownTimer timer = new CountDownTimer(30000000, 1000) {
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        /*
         // set an OnFocusChangeListener to hide the keyboard when the user clicks off the editTextExerciseName
         editTextExerciseName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        */
 
         // set up the button click listener
         buttonAddExercise.setOnClickListener(new View.OnClickListener() {
@@ -230,17 +230,19 @@ public class MainActivity extends AppCompatActivity {
 
                     // convert the StringBuilder to a String
                     String workoutText = sb.toString();
-                    Log.i("LOOK HERE",workoutText);
-                    // display the workout text, e.g. in a Toast message
-                    Toast.makeText(MainActivity.this, workoutText, Toast.LENGTH_LONG).show();
+                    databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("asString").setValue(workoutText);
+
+
+
                     // create an intent to start the PrevWorkoutActivity
-                    Intent intent = new Intent(MainActivity.this, PrevWorkoutActivity.class);
+                    Intent intent = new Intent(MainActivity.this, CompleteWorkoutActivity.class);
                     // add the workout text and title as extras
                     intent.putExtra("workoutText", workoutText);
                     intent.putExtra("workoutTitle", editTextWorkoutTitle.getText().toString());
                     // start the activity
                     //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
                     startActivity(intent);
+                    finish();
                 } catch (Exception e) {
                     // handle any exceptions that occur during the workout data creation
                     e.printStackTrace();

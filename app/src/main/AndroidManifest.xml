@@ -12,9 +12,14 @@
         android:theme="@style/Theme.Sigma"
         tools:targetApi="31">
         <activity
-            android:name=".PrevWorkoutActivity"
-            android:label="Previous Workout"
-            android:exported="false" />
+            android:name=".OpenFolderActivity"
+            android:exported="false"
+            android:label=" "
+            android:parentActivityName=".HomeActivity"/>
+        <activity
+            android:name=".CompleteWorkoutActivity"
+            android:exported="false"
+            android:label="Previous Workout" />
         <activity
             android:name=".PersonalRecordsActivity"
             android:exported="false"

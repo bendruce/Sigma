@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class PrevWorkoutActivity extends AppCompatActivity {
+public class CompleteWorkoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,9 @@ public class PrevWorkoutActivity extends AppCompatActivity {
         prevWorkoutHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PrevWorkoutActivity.this, HomeActivity.class);
+                Intent intent = new Intent(CompleteWorkoutActivity.this, HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
