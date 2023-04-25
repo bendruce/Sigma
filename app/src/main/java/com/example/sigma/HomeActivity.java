@@ -1,5 +1,6 @@
 package com.example.sigma;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +45,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
+
+
+
         folders = new ArrayList<>();
         folderRecyclerView = findViewById(R.id.FoldersRecyclerView);
         folderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -51,7 +56,20 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference foldersRef = database.getReference("folders");
 
+        foldersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called when the data is successfully fetched from the database.
+                // You can perform your operations here.
+                Log.d("TAG", "Data fetched successfully: " + dataSnapshot.getValue());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // This method is called if the data retrieval is cancelled due to some error.
+                Log.d("TAG", "Data retrieval cancelled with error: " + databaseError.getMessage());
+            }
+        });
         // attach a listener to the folders reference to detect when the data changes
         foldersRef.addValueEventListener(new ValueEventListener() {
             @Override

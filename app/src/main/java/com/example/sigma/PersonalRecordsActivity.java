@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,11 +26,24 @@ public class PersonalRecordsActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference workoutsRef = database.getReference().child("workouts");
 
-// Loop through all the workouts
+        workoutsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called when the data is successfully fetched from the database.
+                // You can perform your operations here.
+                Log.d("TAG", "Data fetched successfully: " + dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // This method is called if the data retrieval is cancelled due to some error.
+                Log.d("TAG", "Data retrieval cancelled with error: " + databaseError.getMessage());
+            }
+        });
         workoutsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                System.out.println("LOOK HERE"+"/n");
+                //System.out.println("LOOK HERE"+"/n");
                 for (DataSnapshot workoutSnapshot : snapshot.getChildren()) {
                     DataSnapshot exercisesSnapshot = workoutSnapshot.child("exercises");
 
@@ -39,7 +53,7 @@ public class PersonalRecordsActivity extends AppCompatActivity {
 
                         // Only consider Squat, Bench, and Deadlift exercises
                         if (exerciseName.equals("Squat") || exerciseName.equals("Bench") || exerciseName.equals("Deadlift")) {
-                            System.out.println("LOOK HERE");
+                            //System.out.println("LOOK HERE");
                             DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
                             int highestReps = 0;
                             double highestWeight = 0.0;
