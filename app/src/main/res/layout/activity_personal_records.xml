@@ -8,19 +8,6 @@
     android:background="#222831"
     tools:context=".PersonalRecordsActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="#222831"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"/>
-
     <LinearLayout
         android:id="@+id/prsContainer"
         android:layout_width="0dp"
@@ -30,7 +17,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -43,7 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -331,12 +318,12 @@
                         android:text="Current"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toTopOf="@+id/squatPrevLabel2"
-                        app:layout_constraintEnd_toStartOf="@+id/squatCurrentReps2"
+                        app:layout_constraintEnd_toStartOf="@+id/squatCurrentReps"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/squatLabel2" />
 
                     <TextView
-                        android:id="@+id/squatCurrentWeight2"
+                        android:id="@+id/squatCurrentWeight"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -348,7 +335,7 @@
                         android:minHeight="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/squatPrevWeight2"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/squatCurrentReps2"
+                        app:layout_constraintStart_toEndOf="@+id/squatCurrentReps"
                         app:layout_constraintTop_toBottomOf="@+id/squatLabel2" />
 
                     <TextView
@@ -365,7 +352,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/benchLabel2"
                         app:layout_constraintEnd_toStartOf="@+id/squatPrevWeight2"
                         app:layout_constraintStart_toEndOf="@+id/squatPrevLabel2"
-                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentReps2" />
+                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentReps" />
 
                     <TextView
                         android:id="@+id/squatPrevWeight2"
@@ -381,10 +368,10 @@
                         app:layout_constraintBottom_toTopOf="@id/benchLabel2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/squatPrevReps2"
-                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentWeight2" />
+                        app:layout_constraintTop_toBottomOf="@+id/squatCurrentWeight" />
 
                     <TextView
-                        android:id="@+id/squatCurrentReps2"
+                        android:id="@+id/squatCurrentReps"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -395,7 +382,7 @@
                         android:minWidth="70dp"
                         android:minHeight="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/squatPrevReps2"
-                        app:layout_constraintEnd_toStartOf="@+id/squatCurrentWeight2"
+                        app:layout_constraintEnd_toStartOf="@+id/squatCurrentWeight"
                         app:layout_constraintStart_toEndOf="@+id/squatCurrentLabel2"
                         app:layout_constraintTop_toBottomOf="@+id/squatLabel2" />
 
@@ -501,7 +488,7 @@
                     <EditText
                         android:id="@+id/userExercise"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="0dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:background="#B89769"
@@ -511,15 +498,16 @@
                         android:inputType="textPersonName"
                         android:text="Select Exercise"
                         android:textColor="#393E46"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toTopOf="@+id/userCurrentReps"
+                        app:layout_constraintEnd_toStartOf="@+id/searchTrackButton"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
                         android:id="@+id/searchTrackButton"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
