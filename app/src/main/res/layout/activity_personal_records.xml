@@ -108,7 +108,7 @@
                         android:layout_marginEnd="16dp"
                         android:background="#B89769"
                         android:gravity="center"
-                        android:text="Dead Lifts"
+                        android:text="Deadlifts"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -116,7 +116,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/benchPrevWeight2" />
 
                     <TextView
-                        android:id="@+id/deadCurrentReps2"
+                        android:id="@+id/deadPrevReps"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -128,7 +128,7 @@
                         android:minHeight="20dp"
                         app:layout_constraintEnd_toStartOf="@+id/deadPrevWeight2"
                         app:layout_constraintStart_toEndOf="@+id/deadPrevLabel2"
-                        app:layout_constraintTop_toBottomOf="@+id/deadPrevReps2" />
+                        app:layout_constraintTop_toBottomOf="@+id/deadCurrentReps" />
 
                     <TextView
                         android:id="@+id/deadCurrentWeight2"
@@ -144,7 +144,7 @@
                         android:minHeight="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/deadPrevWeight2"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/deadPrevReps2"
+                        app:layout_constraintStart_toEndOf="@+id/deadCurrentReps"
                         app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
 
                     <TextView
@@ -162,7 +162,7 @@
                         android:text="Current"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toTopOf="@+id/deadPrevLabel2"
-                        app:layout_constraintEnd_toStartOf="@+id/deadPrevReps2"
+                        app:layout_constraintEnd_toStartOf="@+id/deadCurrentReps"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
 
@@ -179,12 +179,12 @@
                         android:minHeight="20dp"
                         android:text="Previous"
                         android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@+id/deadCurrentReps2"
+                        app:layout_constraintEnd_toStartOf="@+id/deadPrevReps"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/deadCurrentLabel2" />
 
                     <TextView
-                        android:id="@+id/deadPrevReps2"
+                        android:id="@+id/deadCurrentReps"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -195,7 +195,7 @@
                         android:gravity="center"
                         android:minWidth="70dp"
                         android:minHeight="20dp"
-                        app:layout_constraintBottom_toTopOf="@+id/deadCurrentReps2"
+                        app:layout_constraintBottom_toTopOf="@+id/deadPrevReps"
                         app:layout_constraintEnd_toStartOf="@+id/deadCurrentWeight2"
                         app:layout_constraintStart_toEndOf="@+id/deadCurrentLabel2"
                         app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
@@ -212,7 +212,7 @@
                         android:minWidth="70dp"
                         android:minHeight="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/deadCurrentReps2"
+                        app:layout_constraintStart_toEndOf="@+id/deadPrevReps"
                         app:layout_constraintTop_toBottomOf="@+id/deadCurrentWeight2" />
 
                     <TextView
@@ -472,7 +472,7 @@
                         android:textColor="#B89769"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toStartOf="@+id/deadCurrentWeight2"
-                        app:layout_constraintStart_toEndOf="@+id/deadPrevReps2"
+                        app:layout_constraintStart_toEndOf="@+id/deadCurrentReps"
                         app:layout_constraintTop_toBottomOf="@+id/deadLabel2" />
 
                     <TextView
@@ -487,7 +487,7 @@
                         android:textColor="#B89769"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toStartOf="@+id/deadPrevWeight2"
-                        app:layout_constraintStart_toEndOf="@+id/deadCurrentReps2"
+                        app:layout_constraintStart_toEndOf="@+id/deadPrevReps"
                         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
