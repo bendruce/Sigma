@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#B89769</item>
+
+    </style>
     <style name="CustomAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">#B89769</item>
         <item name="android:textColor">#B89769</item>
