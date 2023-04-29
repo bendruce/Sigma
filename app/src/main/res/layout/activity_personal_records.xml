@@ -596,21 +596,22 @@
                     <EditText
                         android:id="@+id/userExercise"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:background="#B89769"
-                        android:backgroundTint="#B89769"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textPersonName"
-                        android:text="Select Exercise"
-                        android:textColor="#393E46"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@+id/userCurrentReps"
+                        android:hint="Workout Title"
+                        android:imeOptions="actionDone"
+                        android:minHeight="48dp"
+
+                        android:textAlignment="center"
                         app:layout_constraintEnd_toStartOf="@+id/searchTrackButton"
+
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_conversion_absoluteHeight="48dp"
+                        tools:layout_conversion_absoluteWidth="868dp" />
 
                     <Button
                         android:id="@+id/searchTrackButton"

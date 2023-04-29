@@ -52,7 +52,7 @@
             android:text="Date"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
+            app:layout_constraintEnd_toStartOf="@+id/openPrevWorkoutBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/workoutTitle" />
 
@@ -83,7 +83,7 @@
             app:srcCompat="@drawable/drive_file_move_black_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/openPrevWorkoutBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

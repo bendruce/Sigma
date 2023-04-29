@@ -1,6 +1,7 @@
 package com.example.sigma;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     private List<WorkoutItem> workoutItems;
 
     private ImageButton moveFolderBtn;
+    private ImageButton openWorkoutBtn;
 
     public WorkoutAdapter(List<WorkoutItem> workoutItems) {
         this.workoutItems = workoutItems;
@@ -45,6 +47,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
         // find the addWorkoutFolderBtn button by its ID
         moveFolderBtn = holder.itemView.findViewById(R.id.moveFolderButton);
+        openWorkoutBtn = holder.itemView.findViewById(R.id.openPrevWorkoutBtn);
 
         // set the click listener for the addWorkoutFolderBtn button
         moveFolderBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +89,22 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                 // create and show the dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+        openWorkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CompleteWorkoutActivity.class);
+                intent.putExtra("workoutTitle", workoutItem.getName());
+                //v.getContext().startActivity(intent);
+                databaseRef.child("workouts").child(workoutItem.getName()).child("asString").get().addOnSuccessListener(dataSnapshot -> {
+                            String workoutAsString = (String) dataSnapshot.getValue();
+                            intent.putExtra("workoutText", workoutAsString);
+                            v.getContext().startActivity(intent);
+                        }).addOnFailureListener(e -> {
+                            // Handle the error here
+                            Toast.makeText(v.getContext(), "Error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
             }
         });
     }

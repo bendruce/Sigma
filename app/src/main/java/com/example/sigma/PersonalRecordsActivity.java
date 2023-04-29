@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -182,9 +185,111 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                 }
             }
 
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle error
+            }
+        });
+        Button searchExercise = findViewById(R.id.searchTrackButton);
+        searchExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                workoutsRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        EditText userTrackExercise = findViewById(R.id.userExercise);
+                        String exerciseName = String.valueOf(userTrackExercise.getText());
+                        boolean foundExercise = false;
+
+                        // Loop through all the workouts
+                        for (DataSnapshot workoutSnapshot : snapshot.getChildren()) {
+                            DataSnapshot exercisesSnapshot = workoutSnapshot.child("exercises");
+
+                            // Loop through all the exercises in the workout
+                            for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
+                                String name = exerciseSnapshot.child("exercise name").getValue(String.class);
+
+                                // Check if this is the exercise we're looking for
+                                if (name.equals(exerciseName)) {
+                                    foundExercise = true;
+
+                                    // Print the current personal record
+                                    DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
+                                    int highestReps = 0;
+                                    double highestWeight = 0.0;
+                                    for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
+                                        Integer repsObject = setSnapshot.child("reps").getValue(Integer.class);
+                                        Double weightObject = setSnapshot.child("weight").getValue(Double.class);
+
+                                        if (repsObject != null && weightObject != null) {
+                                            int reps = repsObject.intValue();
+                                            double weight = weightObject.doubleValue();
+
+                                            // Check if this set has a higher reps and weight combo than the previous highest
+                                            if (weight > highestWeight || (weight == highestWeight && reps > highestReps)) {
+                                                highestReps = reps;
+                                                highestWeight = weight;
+                                            }
+                                        }
+                                    }
+                                    System.out.println("Current personal record for " + exerciseName + ": " + highestWeight + " lbs for " + highestReps + " reps");
+
+                                    // Print the previous personal record
+                                    int previousReps = 0;
+                                    double previousWeight = 0.0;
+                                    for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
+                                        Integer repsObject = setSnapshot.child("reps").getValue(Integer.class);
+                                        Double weightObject = setSnapshot.child("weight").getValue(Double.class);
+
+                                        if (repsObject != null && weightObject != null) {
+                                            int reps = repsObject.intValue();
+                                            double weight = weightObject.doubleValue();
+
+                                            // Check if this set has a higher reps and weight combo than the previous highest,
+                                            // but lower than the current highest
+                                            if (weight > previousWeight && weight < highestWeight
+                                                    || (weight == previousWeight && reps > previousReps && weight < highestWeight)
+                                                    || (weight == highestWeight && reps < highestReps)) {
+                                                previousReps = reps;
+                                                previousWeight = weight;
+                                            }
+                                        }
+                                    }
+                                    System.out.println("Previous personal record for " + exerciseName + ": " + previousWeight + " lbs for " + previousReps + " reps");
+                                    TextView userRepBest = findViewById(R.id.userCurrentReps);
+                                    TextView userWeightBest = findViewById(R.id.userCurrentWeight);
+                                    TextView userRepPrevious = findViewById(R.id.userPrevReps);
+                                    TextView userWeightPrevious = findViewById(R.id.userPrevWeight);
+
+                                    userRepBest.setText(String.valueOf(highestReps));
+                                    userWeightBest.setText(String.valueOf(highestWeight));
+                                    userRepPrevious.setText(String.valueOf(previousReps));
+                                    userWeightPrevious.setText(String.valueOf(previousWeight));
+                                    break;
+                                }
+                            }
+
+                            if (foundExercise) {
+                                break;
+                            }
+                        }
+
+                        if (!foundExercise) {
+                            System.out.println("Could not find exercise: " + exerciseName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // This method is called if the data retrieval is cancelled due to some error.
+                        Log.d("TAG", "Data retrieval cancelled with error: " + databaseError.getMessage());
+                    }
+                });
+
+
+
             }
         });
 
