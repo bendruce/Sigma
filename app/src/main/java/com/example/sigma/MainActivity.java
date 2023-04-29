@@ -208,10 +208,10 @@ public class MainActivity extends AppCompatActivity {
 
                     for (Exercise exercise : workout.getExercises()) {
                         DatabaseReference exerciseRef = databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("exercises").push();
-                        exerciseRef.child("exercise name").setValue(exercise.getName());
+                        exerciseRef.child("exercise name").setValue((exercise.getName()).substring(0, 1).toUpperCase() + (exercise.getName()).substring(1));
 
                         // add the exercise name to the StringBuilder
-                        sb.append(exercise.getName()).append(":").append("\n");
+                        sb.append((exercise.getName()).substring(0, 1).toUpperCase() + (exercise.getName()).substring(1)).append(":").append("\n");
                         // iterate over all the sets in the exercise
                         for (Set set : exercise.getSets()) {
                             // create a new Set node in Firebase

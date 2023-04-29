@@ -66,17 +66,31 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                 builder.setView(input);
 
                 // set the positive button action
+                // set the positive button action
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // get the user input text
                         String folderName = input.getText().toString();
-                        // do something with the folderName
-                        Toast.makeText(holder.itemView.getContext(), "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
-                        databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
-
+                        // check if the folder name is a child of "folders" in the database
+                        databaseRef.child("folders").child(folderName).get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().getValue() != null) {
+                                    // the folder name is a child of "folders" in the database
+                                    Toast.makeText(holder.itemView.getContext(), "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
+                                    databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
+                                } else {
+                                    // the folder name is not a child of "folders" in the database
+                                    Toast.makeText(holder.itemView.getContext(), "Folder not found", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // Handle the error here
+                                Toast.makeText(holder.itemView.getContext(), "Error occurred: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+
 
                 // set the negative button action
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
