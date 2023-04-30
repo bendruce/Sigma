@@ -24,6 +24,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
     private ImageButton moveFolderBtn;
     private ImageButton openWorkoutBtn;
+    private ImageButton delWrkoutBtn;
 
     public WorkoutAdapter(List<WorkoutItem> workoutItems) {
         this.workoutItems = workoutItems;
@@ -48,7 +49,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         // find the addWorkoutFolderBtn button by its ID
         moveFolderBtn = holder.itemView.findViewById(R.id.moveFolderButton);
         openWorkoutBtn = holder.itemView.findViewById(R.id.openPrevWorkoutBtn);
-
+        delWrkoutBtn = holder.itemView.findViewById(R.id.deleteWorkoutBtn);
         // set the click listener for the addWorkoutFolderBtn button
         moveFolderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +120,15 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                             // Handle the error here
                             Toast.makeText(v.getContext(), "Error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
+            }
+        });
+        delWrkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // remove the workout from the database
+                databaseRef.child("workouts").child(workoutItem.getName()).removeValue();
+
+
             }
         });
     }
