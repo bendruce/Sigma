@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,13 +30,15 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
 
     private ImageButton openFolderBtn;
 
-    private TextView folderTitle;
+    private ImageButton delFolderBtn;
 
     private int workoutCounter;
 
     public FolderAdapter(List<FolderItem> folderItems) {
         this.folderItems = folderItems;
     }
+
+    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
 
     @NonNull
     @Override
@@ -51,10 +54,11 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
 
 
         openFolderBtn = holder.itemView.findViewById(R.id.openFolderButton);
-        //folderTitle = holder.itemView.findViewById(R.id.folderName);
+        delFolderBtn = holder.itemView.findViewById(R.id.deleteFolderButton);
 
         workoutCounter = 0;
         DatabaseReference workoutsRef = FirebaseDatabase.getInstance().getReference("workouts");
+        DatabaseReference folderRef = FirebaseDatabase.getInstance().getReference("folders");
         workoutsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -90,6 +94,30 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
                 Intent intent = new Intent(v.getContext(), OpenFolderActivity.class);
                 intent.putExtra("folderTitle", folderItem.getFolderName());
                 v.getContext().startActivity(intent);
+            }
+        });
+        delFolderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // remove the workout from the database
+                System.out.println("--------------------");
+                System.out.println(folderItem.getFolderName());
+                System.out.println("--------------------");
+                databaseRef.child("folders").child(folderItem.getFolderName()).removeValue(new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        if (error != null) {
+                            // Handle any errors or exceptions that occur during deletion
+                            Toast.makeText(v.getContext(), "Error deleting folder: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Folder was deleted successfully
+                            Toast.makeText(v.getContext(), "Folder deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
             }
         });
     }

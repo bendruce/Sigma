@@ -45,7 +45,7 @@
             android:text="Filler Count"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+            app:layout_constraintEnd_toStartOf="@+id/deleteFolderButton"
             app:layout_constraintStart_toEndOf="@+id/folderName"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,12 +61,12 @@
             android:contentDescription="Open Folder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButton3"
+            app:layout_constraintStart_toEndOf="@+id/deleteFolderButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/login_black_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/deleteFolderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
