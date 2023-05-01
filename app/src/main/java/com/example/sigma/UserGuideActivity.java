@@ -10,7 +10,7 @@ import android.webkit.WebViewClient;
 public class UserGuideActivity extends AppCompatActivity {
     private WebView webView;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,7 @@ public class UserGuideActivity extends AppCompatActivity {
 
         webView = findViewById(R.id.guideWebView);
         //webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///android_assets/guide.html");
+        webView.loadUrl("file:///android_asset/guide.html");
 
     }
 }
