@@ -79,7 +79,27 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                         String folderName = input.getText().toString();
                         System.out.println(folderName);
                         databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
+                        DatabaseReference folderRef = FirebaseDatabase.getInstance().getReference("folders");
+                        Query query = folderRef.orderByValue().equalTo(folderName);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    String folderKey = snapshot.getChildren().iterator().next().getKey();
+                                    System.out.println(folderKey);//Do something with the folderKey
+                                    folderRef.child(folderKey).removeValue();
+                                } else {
+                                    System.out.println("Handle case where folderName does not exist in database");
+                                    String key = databaseRef.child("folders").push().getKey();
+                                    databaseRef.child("folders").child(key).setValue(folderName);
+                                }
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle any errors or exceptions that occur during retrieval
+                            }
+                        });
 
 
 
