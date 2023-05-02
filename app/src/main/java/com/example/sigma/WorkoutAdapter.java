@@ -14,8 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -73,22 +77,15 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                     public void onClick(DialogInterface dialog, int which) {
                         // get the user input text
                         String folderName = input.getText().toString();
-                        // check if the folder name is a child of "folders" in the database
-                        databaseRef.child("folders").child(folderName).get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                if (task.getResult().getValue() != null) {
-                                    // the folder name is a child of "folders" in the database
-                                    Toast.makeText(holder.itemView.getContext(), "Folder name: " + folderName, Toast.LENGTH_SHORT).show();
-                                    databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
-                                } else {
-                                    // the folder name is not a child of "folders" in the database
-                                    Toast.makeText(holder.itemView.getContext(), "Folder not found", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                // Handle the error here
-                                Toast.makeText(holder.itemView.getContext(), "Error occurred: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        System.out.println(folderName);
+                        databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
+
+
+
+
+
+
+
                     }
                 });
 
@@ -113,13 +110,13 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                 intent.putExtra("workoutTitle", workoutItem.getName());
                 //v.getContext().startActivity(intent);
                 databaseRef.child("workouts").child(workoutItem.getName()).child("asString").get().addOnSuccessListener(dataSnapshot -> {
-                            String workoutAsString = (String) dataSnapshot.getValue();
-                            intent.putExtra("workoutText", workoutAsString);
-                            v.getContext().startActivity(intent);
-                        }).addOnFailureListener(e -> {
-                            // Handle the error here
-                            Toast.makeText(v.getContext(), "Error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                    String workoutAsString = (String) dataSnapshot.getValue();
+                    intent.putExtra("workoutText", workoutAsString);
+                    v.getContext().startActivity(intent);
+                }).addOnFailureListener(e -> {
+                    // Handle the error here
+                    Toast.makeText(v.getContext(), "Error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
             }
         });
         delWrkoutBtn.setOnClickListener(new View.OnClickListener() {

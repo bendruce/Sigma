@@ -4,6 +4,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
@@ -99,27 +101,32 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         delFolderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // remove the workout from the database
-                System.out.println("--------------------");
-                System.out.println(folderItem.getFolderName());
-                System.out.println("--------------------");
-                databaseRef.child("folders").child(folderItem.getFolderName()).removeValue(new DatabaseReference.CompletionListener() {
+                // remove the folder from the database
+                //String folderName = "Legs";
+                DatabaseReference folderRef = FirebaseDatabase.getInstance().getReference("folders");
+                Query query = folderRef.orderByValue().equalTo(folderItem.getFolderName());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        if (error != null) {
-                            // Handle any errors or exceptions that occur during deletion
-                            Toast.makeText(v.getContext(), "Error deleting folder: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            String folderKey = snapshot.getChildren().iterator().next().getKey();
+                            System.out.println(folderKey);//Do something with the folderKey
+                            folderRef.child(folderKey).removeValue();
                         } else {
-                            // Folder was deleted successfully
-                            Toast.makeText(v.getContext(), "Folder deleted", Toast.LENGTH_SHORT).show();
+                            System.out.println("Handle case where folderName does not exist in database");
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle any errors or exceptions that occur during retrieval
                     }
                 });
 
-
-
             }
         });
+
+
     }
 
     @Override
