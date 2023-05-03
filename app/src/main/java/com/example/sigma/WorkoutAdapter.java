@@ -87,7 +87,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                                 if (snapshot.exists()) {
                                     String folderKey = snapshot.getChildren().iterator().next().getKey();
                                     System.out.println(folderKey);//Do something with the folderKey
-                                    folderRef.child(folderKey).removeValue();
+                                    //folderRef.child(folderKey).removeValue();
                                 } else {
                                     //System.out.println("Handle case where folderName does not exist in database");
                                     String key = databaseRef.child("folders").push().getKey();
