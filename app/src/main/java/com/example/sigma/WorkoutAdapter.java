@@ -89,9 +89,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                                     System.out.println(folderKey);//Do something with the folderKey
                                     folderRef.child(folderKey).removeValue();
                                 } else {
-                                    System.out.println("Handle case where folderName does not exist in database");
+                                    //System.out.println("Handle case where folderName does not exist in database");
                                     String key = databaseRef.child("folders").push().getKey();
-                                    databaseRef.child("folders").child(key).setValue(folderName);
+                                    if (!("Home".equals(folderName))){
+                                        databaseRef.child("folders").child(key).setValue(folderName);
+                                    }
+
                                 }
                             }
 
