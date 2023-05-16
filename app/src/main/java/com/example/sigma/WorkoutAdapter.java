@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE WORKOUTS ON THE HOME PAGE OR WITHIN A FOLDER
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import android.content.DialogInterface;
@@ -25,7 +28,6 @@ import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
     private List<WorkoutItem> workoutItems;
-
     private ImageButton moveFolderBtn;
     private ImageButton openWorkoutBtn;
     private ImageButton delWrkoutBtn;
@@ -50,34 +52,24 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         holder.dateTextView.setText(workoutItem.getDate());
         holder.lengthTextView.setText(workoutItem.getLength());
 
-        // find the addWorkoutFolderBtn button by its ID
         moveFolderBtn = holder.itemView.findViewById(R.id.moveFolderButton);
         openWorkoutBtn = holder.itemView.findViewById(R.id.openPrevWorkoutBtn);
         delWrkoutBtn = holder.itemView.findViewById(R.id.deleteWorkoutBtn);
-        // set the click listener for the addWorkoutFolderBtn button
-        moveFolderBtn.setOnClickListener(new View.OnClickListener() {
+        moveFolderBtn.setOnClickListener(new View.OnClickListener() {//set the click listener for the addWorkoutFolderBtn button
             @Override
             public void onClick(View v) {
-                // create an AlertDialog Builder
+                //create an AlertDialog Builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext(), R.style.CustomAlertDialogTheme);
-
-
-                // set the title and message
+                //set the title and message
                 builder.setTitle("Move Folder");
                 builder.setMessage("Move to Folder:");
-
-                // create a EditText view to get user input
+                //create a EditText view to get user input
                 final EditText input = new EditText(holder.itemView.getContext());
                 builder.setView(input);
-
-                // set the positive button action
-                // set the positive button action
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {//set the positive button action
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // get the user input text
-                        String folderName = input.getText().toString();
-                        System.out.println(folderName);
+                        String folderName = input.getText().toString();//get the user input text
                         databaseRef.child("workouts").child(workoutItem.getName()).child("folder").setValue(folderName);
                         DatabaseReference folderRef = FirebaseDatabase.getInstance().getReference("folders");
                         Query query = folderRef.orderByValue().equalTo(folderName);
@@ -97,58 +89,44 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
                                 }
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle any errors or exceptions that occur during retrieval
+                                Toast.makeText(holder.itemView.getContext(), "Data retrieval cancelled with error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
-
-
-
-
                     }
                 });
-
-
-                // set the negative button action
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {//set the negative button action
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // user cancelled the dialog
+                        //user cancelled the dialog
                     }
                 });
-
-                // create and show the dialog
+                //create and show the dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
         });
-        openWorkoutBtn.setOnClickListener(new View.OnClickListener() {
+        openWorkoutBtn.setOnClickListener(new View.OnClickListener() {//sets a listener for the open workout button
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CompleteWorkoutActivity.class);
-                intent.putExtra("workoutTitle", workoutItem.getName());
-                //v.getContext().startActivity(intent);
+                Intent intent = new Intent(v.getContext(), CompleteWorkoutActivity.class);//makes an intent for the view prev activity activity
+                intent.putExtra("workoutTitle", workoutItem.getName());//puts the title of the workout in the intent
+                //gets the workout info as a string from the database \/\/\/\/
                 databaseRef.child("workouts").child(workoutItem.getName()).child("asString").get().addOnSuccessListener(dataSnapshot -> {
                     String workoutAsString = (String) dataSnapshot.getValue();
                     intent.putExtra("workoutText", workoutAsString);
                     v.getContext().startActivity(intent);
                 }).addOnFailureListener(e -> {
-                    // Handle the error here
                     Toast.makeText(v.getContext(), "Error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
             }
         });
+        //deletes a workout from database and as a result from the home page or folder its in \/\/\/\/\/
         delWrkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // remove the workout from the database
-                databaseRef.child("workouts").child(workoutItem.getName()).removeValue();
-
-
+                databaseRef.child("workouts").child(workoutItem.getName()).removeValue();//remove the workout from the database
             }
         });
     }

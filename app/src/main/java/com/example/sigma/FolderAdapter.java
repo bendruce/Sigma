@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE ADAPTER TO ADD FOLDERS TO THE RECYCLER VIEW IN THE HOME PAGE
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import static androidx.core.content.ContextCompat.startActivity;
@@ -38,102 +41,87 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
 
     public FolderAdapter(List<FolderItem> folderItems) {
         this.folderItems = folderItems;
-    }
-
-    private DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+    }//Constructor for the FolderAdapter class
 
     @NonNull
     @Override
-    public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FolderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {//Override onCreateViewHolder to inflate the layout and return the ViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.folder_layout, parent, false);
         return new FolderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
-        FolderItem folderItem = folderItems.get(position);
+    public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {//Bind the ViewHolder to the data
+        FolderItem folderItem = folderItems.get(position);//Get the current folderItem
         holder.folderNameTextView.setText(folderItem.getFolderName());
-
-
+        //Find the buttons in the layout
         openFolderBtn = holder.itemView.findViewById(R.id.openFolderButton);
         delFolderBtn = holder.itemView.findViewById(R.id.deleteFolderButton);
 
-        workoutCounter = 0;
+        workoutCounter = 0;//Set workoutCounter to 0
+        //Get a reference to the workouts and folders nodes in the database
         DatabaseReference workoutsRef = FirebaseDatabase.getInstance().getReference("workouts");
         DatabaseReference folderRef = FirebaseDatabase.getInstance().getReference("folders");
-        workoutsRef.addValueEventListener(new ValueEventListener() {
+        workoutsRef.addValueEventListener(new ValueEventListener() {//Add a ValueEventListener to the workoutsRef
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-                // iterate over each child of the workouts reference
-                for (DataSnapshot workoutSnapshot : dataSnapshot.getChildren()) {
-
+            public void onDataChange(DataSnapshot dataSnapshot){
+                for (DataSnapshot workoutSnapshot : dataSnapshot.getChildren()) {//Iterate over each child of the workouts reference
                     DataSnapshot folderSnapshot = workoutSnapshot.child("folder");
                     String workoutFolder = folderSnapshot.getValue(String.class);
-                    if ((folderItem.getFolderName()).equals(workoutFolder)){
+                    if ((folderItem.getFolderName()).equals(workoutFolder)){//If the folder name matches increment the workoutCounter
                         workoutCounter+=1;
                     }
-
-
-
                 }
-
-                holder.numberOfWorkoutsTextView.setText(String.valueOf(workoutCounter));
-                workoutCounter = 0;
-
+                holder.numberOfWorkoutsTextView.setText(String.valueOf(workoutCounter));//Set the text of the numberOfWorkoutsTextView
+                workoutCounter = 0;//Reset the workoutCounter
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // handle any errors
+            public void onCancelled(DatabaseError databaseError) {//Handle any errors
+                Toast.makeText(holder.itemView.getContext(), "Error connecting to database, try again later", Toast.LENGTH_SHORT).show();
             }
         });
-        openFolderBtn.setOnClickListener(new View.OnClickListener() {
+        openFolderBtn.setOnClickListener(new View.OnClickListener() {//Set an OnClickListener on the openFolderBtn
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), OpenFolderActivity.class);
+                Intent intent = new Intent(v.getContext(), OpenFolderActivity.class);//Create an Intent to start the OpenFolderActivity
                 intent.putExtra("folderTitle", folderItem.getFolderName());
                 v.getContext().startActivity(intent);
             }
         });
-        delFolderBtn.setOnClickListener(new View.OnClickListener() {
+        delFolderBtn.setOnClickListener(new View.OnClickListener() {//Set an OnClickListener on the delFolder
             @Override
             public void onClick(View v) {
-                // remove the folder from the database
-                //String folderName = "Legs";
+                //remove the folder from the database
+                //
+                //Create a Query to find the folder with the given name
                 DatabaseReference folderRef = FirebaseDatabase.getInstance().getReference("folders");
                 Query query = folderRef.orderByValue().equalTo(folderItem.getFolderName());
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
+                        if (snapshot.exists()) {//If the folder exists, delete it
                             String folderKey = snapshot.getChildren().iterator().next().getKey();
                             System.out.println(folderKey);//Do something with the folderKey
                             folderRef.child(folderKey).removeValue();
-                        } else {
-                            System.out.println("Handle case where folderName does not exist in database");
+                        } else {//If the folder does not exist, display an error message
+                            Toast.makeText(holder.itemView.getContext(), "Not Deleted, Error", Toast.LENGTH_SHORT).show();
+
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle any errors or exceptions that occur during retrieval
+                        Toast.makeText(holder.itemView.getContext(), "Not Deleted, Error", Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
-
-
     }
-
     @Override
     public int getItemCount() {
         return folderItems.size();
-    }
-    public class FolderViewHolder extends RecyclerView.ViewHolder {
+    }//Override getItemCount to return the number of items in the list
+    public class FolderViewHolder extends RecyclerView.ViewHolder {//Define the ViewHolder class
         private TextView folderNameTextView;
         private TextView numberOfWorkoutsTextView;
 
@@ -144,7 +132,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
             numberOfWorkoutsTextView = itemView.findViewById(R.id.workoutCount);
         }
 
-        public void bind(FolderItem folderItem) {
+        public void bind(FolderItem folderItem) {//Bind the FolderItem data to the TextViews
             folderNameTextView.setText(folderItem.getFolderName());
             numberOfWorkoutsTextView.setText(String.valueOf(folderItem.getNumberOfWorkouts()));
         }

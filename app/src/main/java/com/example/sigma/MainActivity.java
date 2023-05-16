@@ -1,8 +1,13 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE WORKOUTS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -16,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,253 +63,135 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // find the UI components by their IDs
+        Intent intent = new Intent(this, CountDownService.class);
+        startService(intent);//use CountDownService service provider
+        //find the UI components
         editTextWorkoutTitle = findViewById(R.id.WorkoutTitle);
         editTextExerciseName = findViewById(R.id.edit_text_exercise_name);
         buttonAddExercise = findViewById(R.id.button_add_exercise);
         editTextWorkoutDuration = findViewById(R.id.workoutDuration);
         recyclerViewExercises = findViewById(R.id.recycler_view_exercises);
-
-
-        // create a new Workout object
+        //create a new Workout object
         workout = new Workout();
-
-        // set up the RecyclerView adapter for exercises
+        //set up the RecyclerView adapter for exercises
         ExerciseAdapter exerciseAdapter = new ExerciseAdapter(workout.getExercises());
         recyclerViewExercises.setAdapter(exerciseAdapter);
         recyclerViewExercises.setLayoutManager(new LinearLayoutManager(this));
-
-        // create an instance of InputMethodManager
-        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // create a new CountDownTimer object with a 30 second duration and 1 second intervals
-        CountDownTimer timer = new CountDownTimer(30000000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                // update the timer value
-                timerValue = millisUntilFinished;
-                long elapsedMillis = 30000000 - timerValue;
-                // convert milliseconds to hours, minutes, and seconds
-                long hours = TimeUnit.MILLISECONDS.toHours(elapsedMillis);
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMillis) - TimeUnit.HOURS.toMinutes(hours);
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(hours);
-
-                String elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-                editTextWorkoutDuration.setText(elapsedTime);
-            }
-
-            @Override
-            public void onFinish() {
-                // do something when the timer finishes
-            }
-        };
-        // start the timer
-        timer.start();
-
         stopWatchView = findViewById(R.id.stopWatchView);
         stopWatchButton = findViewById(R.id.stopWatchButton);
-
-        // create a new CountDownTimer object with a 1 second duration and 1 second intervals
-        stopWatch = new CountDownTimer(1000000000, 1000) {
+        stopWatch = new CountDownTimer(1000000000, 1000) {//create a new CountDownTimer object with a 1 second duration and 1 second intervals
             @Override
             public void onTick(long millisUntilFinished) {
-                // calculate the elapsed time
-
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                // convert milliseconds to hours, minutes, and seconds
-
+                long elapsedTime = System.currentTimeMillis() - startTime;//calculate the elapsed time
+                //convert milliseconds to hours, minutes, and seconds
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedTime);
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(minutes);
-
                 String elapsedTimeString = String.format("%02d:%02d" , minutes, seconds);
                 stopWatchView.setText(elapsedTimeString);
             }
 
             @Override
             public void onFinish() {
-                // do something when the timer finishes
+                //stopwatch should realistically never reach this stage so nothing needs to be done
             }
         };
 
-        // set the start time to the current time
-        startTime = System.currentTimeMillis();
-
-        // start the timer
-        stopWatch.start();
-
-        // set up the click listener for the stopWatchButton
-        stopWatchButton.setOnClickListener(new View.OnClickListener() {
+        startTime = System.currentTimeMillis();//set the start time to the current time
+        stopWatch.start();//start the timer
+        stopWatchButton.setOnClickListener(new View.OnClickListener() {//set up the click listener for the stopWatchButton to reset the stopwatch
             @Override
             public void onClick(View v) {
-                // reset the start time to the current time
-                startTime = System.currentTimeMillis();
+                startTime = System.currentTimeMillis();//reset the start time to the current time
             }
         });
-
-
-
-
-        /*
-        // set an OnFocusChangeListener to hide the keyboard when the user clicks off the editTextExerciseName
-        editTextExerciseName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-        });
-
-        // set up the TouchListener to hide the keyboard when the user clicks elsewhere on the screen
-        findViewById(R.id.WorkoutScreen).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (getCurrentFocus() != null) {
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    return true;
-                }
-                return false;
-            }
-        });
-        */
-
-        // set up the button click listener
-        buttonAddExercise.setOnClickListener(new View.OnClickListener() {
+        buttonAddExercise.setOnClickListener(new View.OnClickListener() {// set up the button click listener for new exercises
             @Override
             public void onClick(View v) {
                 String name = editTextExerciseName.getText().toString();
-                Exercise exercise = new Exercise(name);
+                Exercise exercise = new Exercise(name);//add a new exercise
                 workout.addExercise(exercise);
                 exerciseAdapter.notifyDataSetChanged();
             }
         });
 
 
-
-
-
-
-
-        // find the finishWorkoutButton and set an OnClickListener
         Button finishWorkoutButton = findViewById(R.id.finishWorkoutButton);
-        finishWorkoutButton.setOnClickListener(new View.OnClickListener() {
+        finishWorkoutButton.setOnClickListener(new View.OnClickListener() {//OnClickListener for the finsish workout button
             @Override
             public void onClick(View v) {
                 try {
                     long elapsedMillis = 30000000 - timerValue;
-                    // convert milliseconds to hours, minutes, and seconds
+                    //convert milliseconds to hours, minutes, and seconds
                     long hours = TimeUnit.MILLISECONDS.toHours(elapsedMillis);
                     long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMillis) - TimeUnit.HOURS.toMinutes(hours);
                     long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(hours);
-
                     String elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-
-
                     StringBuilder sb = new StringBuilder();
-                    // iterate over all the exercises in the workout
                     databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("date").setValue((LocalDate.now()).format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                     databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("length").setValue(elapsedTime);
                     databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("folder").setValue("Home");
 
-                    for (Exercise exercise : workout.getExercises()) {
+                    for (Exercise exercise : workout.getExercises()) {//iterate over all the exercises in the workout
                         DatabaseReference exerciseRef = databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("exercises").push();
                         exerciseRef.child("exercise name").setValue((exercise.getName()).substring(0, 1).toUpperCase() + (exercise.getName()).substring(1));
-
-                        // add the exercise name to the StringBuilder
-                        sb.append((exercise.getName()).substring(0, 1).toUpperCase() + (exercise.getName()).substring(1)).append(":").append("\n");
-                        // iterate over all the sets in the exercise
-                        for (Set set : exercise.getSets()) {
-                            // create a new Set node in Firebase
+                        sb.append((exercise.getName()).substring(0, 1).toUpperCase() + (exercise.getName()).substring(1)).append(":").append("\n");//add the exercise name to the StringBuilder
+                        for (Set set : exercise.getSets()) {//iterate over all the sets in the exercise
+                            //create a new Set node in Firebase
                             DatabaseReference setRef = exerciseRef.child("sets").push();
                             setRef.child("setNumber").setValue(set.getSetNumber());
                             setRef.child("reps").setValue(set.getReps());
                             setRef.child("weight").setValue(set.getWeight());
-                            // add the set information to the StringBuilder
+                            //add the set information to the StringBuilder
                             sb.append(" Set ").append(set.getSetNumber()).append(": ").append(set.getReps()).append(" x ")
                                     .append(set.getWeight()).append("Kg").append("\n");
                         }
-                        // add a new line after each exercise
-                        sb.append("\n");
-
+                        sb.append("\n");//add a new line after each exercise in the string builder
                     }
-
-                    // convert the StringBuilder to a String
-                    String workoutText = sb.toString();
+                    String workoutText = sb.toString();//convert the StringBuilder to a String
                     databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).child("asString").setValue(workoutText);
 
-
-
-                    // create an intent to start the PrevWorkoutActivity
-                    Intent intent = new Intent(MainActivity.this, CompleteWorkoutActivity.class);
-                    // add the workout text and title as extras
+                    Intent intent = new Intent(MainActivity.this, CompleteWorkoutActivity.class);// create an intent to start the PrevWorkoutActivity
+                    //add the workout text and title as extras
                     intent.putExtra("workoutText", workoutText);
                     intent.putExtra("workoutTitle", editTextWorkoutTitle.getText().toString());
-                    // start the activity
-                    //databaseRef.child("workouts").child(editTextWorkoutTitle.getText().toString()).push().setValue(workoutText);
+                    //start the activity
                     startActivity(intent);
                     finish();
                 } catch (Exception e) {
-                    // handle any exceptions that occur during the workout data creation
+                    //handle any exceptions that occur during the workout data creation
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-
-
-
-
-
-
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(br, new IntentFilter(CountDownService.COUNTDOWN_BR));
+        Log.i(getClass().getSimpleName(), "Registered broadcast receiver");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(br);
+        Log.i(getClass().getSimpleName(), "Unregistered broadcast receiver");
+    }
+
+
+    private BroadcastReceiver br = new BroadcastReceiver() {//Create a BroadcastReceiver for the timer
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            timerValue = intent.getLongExtra("countdown", 0);//update the timer value
+            long elapsedMillis = 30000000 - timerValue;
+            //convert milliseconds to hours, minutes, and seconds
+            long hours = TimeUnit.MILLISECONDS.toHours(elapsedMillis);
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMillis) - TimeUnit.HOURS.toMinutes(hours);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis) - TimeUnit.MINUTES.toSeconds(minutes) - TimeUnit.HOURS.toSeconds(hours);
+            String elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+            editTextWorkoutDuration.setText(elapsedTime);
+        }
+    };
+
 }
-/*
-recyclerViewSets = findViewById(R.id.recycler_view_sets);
-
-                if (setAdapter != null) {
-                setAdapter = new SetAdapter(sets);
-                recyclerViewSets.setAdapter(setAdapter);
-                recyclerViewSets.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
-
-            // find the addSetButton and set an OnClickListener
-            Button addSetButton = findViewById(R.id.addSetButton);
-                addSetButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // create a new Set object and add it to the list
-                    Set newSet = new Set(sets.size() + 1, 0, 0); // you can set the reps and weight to default values
-                    sets.add(newSet);
-
-                    // notify the adapter that a new item has been added
-                    setAdapter.notifyItemInserted(sets.size() - 1);
-                }
-            });
- */
-/*
-buttonAddExercise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // get the data from the EditText fields
-                String name = editTextExerciseName.getText().toString();
-
-
-                // create a new Exercise object and add it to the Workout object's ArrayList
-                Exercise exercise = new Exercise(name);
-                workout.addExercise(exercise);
-
-                // update the adapter with the new list of exercises
-                exerciseAdapter.updateExercises(workout.getExercises());
-
-                // notify the RecyclerView adapter that the data has changed
-                exerciseAdapter.notifyDataSetChanged();
-
-                // set up the RecyclerView adapter for sets if it has not been initialized
-
-            }
-
-        });
- */

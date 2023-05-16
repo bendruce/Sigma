@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE WORKOUTS ON THE HOME PAGE OR WITHIN A FOLDER
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 public class WorkoutItem {
@@ -11,6 +14,7 @@ public class WorkoutItem {
         this.length = length;
     }
 
+    //getters
     public String getName() {
         return name;
     }

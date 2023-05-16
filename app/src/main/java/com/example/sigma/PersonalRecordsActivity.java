@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE PERSONAL RECORDS PAGE
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import androidx.annotation.NonNull;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,28 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class PersonalRecordsActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_records);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference workoutsRef = database.getReference().child("workouts");
-
-        workoutsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method is called when the data is successfully fetched from the database.
-                // You can perform your operations here.
-                Log.d("TAG", "Data fetched successfully: " + dataSnapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // This method is called if the data retrieval is cancelled due to some error.
-                Log.d("TAG", "Data retrieval cancelled with error: " + databaseError.getMessage());
-            }
-        });
         workoutsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -56,36 +44,19 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                 double previousWeightDead = 0.0;
                 for (DataSnapshot workoutSnapshot : snapshot.getChildren()) {
                     DataSnapshot exercisesSnapshot = workoutSnapshot.child("exercises");
-
-                    // Loop through all the exercises in the workout
-                    for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
+                    for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {//loop through all the exercises in the workout
                         String exerciseName = exerciseSnapshot.child("exercise name").getValue(String.class);
-
-                        // Only consider Squat, Bench, and Deadlift exercises
+                        //Only consider Squat, Bench, and Deadlift exercises
                         if (exerciseName.equals("Squat") || exerciseName.equals("Bench") || exerciseName.equals("Deadlift")) {
                             DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
-
-
-                            // Loop through all the sets for the exercise
-                            for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
+                            for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {//Loop through all the sets for the exercise
                                 Integer repsObject = setSnapshot.child("reps").getValue(Integer.class);
                                 Double weightObject = setSnapshot.child("weight").getValue(Double.class);
 
                                 if (repsObject != null && weightObject != null) {
                                     int reps = repsObject.intValue();
                                     double weight = weightObject.doubleValue();
-
-                                    // Check if this set has a higher reps and weight combo than the previous highest
-                                    //(weight > highestWeight) || (weight==highestWeight && reps>highestReps)
-                                    //reps * weight > highestReps * highestWeight
-                                    //|| (weight==highestWeight && reps>highestReps)
-
                                     if ((weight > highestWeightSquat|| (weight==highestWeightSquat && reps>highestRepsSquat))&&"Squat".equals(exerciseName)) {
-                                        System.out.println("----------------");
-                                        System.out.println(exerciseName);
-                                        System.out.println(weight);
-                                        System.out.println(highestWeightSquat);
-                                        System.out.println("----------------");
                                         previousRepsSquat = highestRepsSquat;
                                         previousWeightSquat = highestWeightSquat;
                                         highestRepsSquat = reps;
@@ -95,14 +66,6 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                         previousWeightSquat = weight;
                                     }
                                     if ((weight > highestWeightBench || (weight==highestWeightBench && reps>highestRepsBench) )&&"Bench".equals(exerciseName) ) {
-                                        /*
-                                        System.out.println("----------------");
-                                        System.out.println(exerciseName);
-                                        System.out.println(weight);
-                                        System.out.println(highestWeightBench);
-                                        System.out.println("----------------");
-                                        */
-
                                         previousRepsBench = highestRepsBench;
                                         previousWeightBench = highestWeightBench;
                                         highestRepsBench = reps;
@@ -112,14 +75,6 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                         previousWeightBench = weight;
                                     }
                                     if ((weight > highestWeightDead || (weight==highestWeightDead && reps>highestRepsDead))&&"Deadlift".equals(exerciseName) ) {
-                                        /*
-                                        System.out.println("----------------");
-                                        System.out.println(exerciseName);
-                                        System.out.println(weight);
-                                        System.out.println(highestWeightDead);
-                                        System.out.println("----------------");
-
-                                         */
                                         previousRepsDead = highestRepsDead;
                                         previousWeightDead = highestWeightDead;
                                         highestRepsDead = reps;
@@ -135,11 +90,6 @@ public class PersonalRecordsActivity extends AppCompatActivity {
 
                             // Print the highest and previous personal records for the exercise
                             if ("Squat".equals(exerciseName)){
-                                System.out.println("******************");
-                                System.out.println(exerciseName);
-                                System.out.println(highestRepsSquat);
-                                System.out.println(highestWeightSquat);
-                                System.out.println("******************");
                                 TextView squatRepBest = findViewById(R.id.squatCurrentReps);
                                 TextView squatWeightBest = findViewById(R.id.squatCurrentWeight);
                                 TextView squatRepPrevious = findViewById(R.id.squatPrevReps2);
@@ -151,11 +101,6 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                 squatWeightPrevious.setText(String.valueOf(previousWeightSquat));
                             }
                             if ("Bench".equals(exerciseName)){
-                                System.out.println("******************");
-                                System.out.println(exerciseName);
-                                System.out.println(highestRepsBench);
-                                System.out.println(highestWeightBench);
-                                System.out.println("******************");
                                 TextView benchRepBest = findViewById(R.id.benchCurrentReps2);
                                 TextView benchWeightBest = findViewById(R.id.benchCurrentWeight2);
                                 TextView benchRepPrevious = findViewById(R.id.benchPrevReps2);
@@ -177,45 +122,32 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                 deadRepPrevious.setText(String.valueOf(previousRepsDead));
                                 deadWeightPrevious.setText(String.valueOf(previousWeightDead));
                             }
-
-
-
                         }
                     }
                 }
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
+                Toast.makeText(PersonalRecordsActivity.this, "Data retrieval cancelled with error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
         Button searchExercise = findViewById(R.id.searchTrackButton);
         searchExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 workoutsRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         EditText userTrackExercise = findViewById(R.id.userExercise);
                         String exerciseName = String.valueOf(userTrackExercise.getText());
                         boolean foundExercise = false;
-
-                        // Loop through all the workouts
-                        for (DataSnapshot workoutSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot workoutSnapshot : snapshot.getChildren()) {//loop through all the workouts
                             DataSnapshot exercisesSnapshot = workoutSnapshot.child("exercises");
-
-                            // Loop through all the exercises in the workout
-                            for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
+                            for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {//loop through all the exercises in the workout
                                 String name = exerciseSnapshot.child("exercise name").getValue(String.class);
-
-                                // Check if this is the exercise we're looking for
-                                if (name.equals(exerciseName)) {
+                                if (name.equals(exerciseName)) {//check if this is the exercise we're looking for
                                     foundExercise = true;
-
-                                    // Print the current personal record
                                     DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
                                     int highestReps = 0;
                                     double highestWeight = 0.0;
@@ -226,17 +158,13 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                         if (repsObject != null && weightObject != null) {
                                             int reps = repsObject.intValue();
                                             double weight = weightObject.doubleValue();
-
-                                            // Check if this set has a higher reps and weight combo than the previous highest
+                                            //check if this set has a higher reps and weight combo than the previous highest
                                             if (weight > highestWeight || (weight == highestWeight && reps > highestReps)) {
                                                 highestReps = reps;
                                                 highestWeight = weight;
                                             }
                                         }
                                     }
-                                    System.out.println("Current personal record for " + exerciseName + ": " + highestWeight + " lbs for " + highestReps + " reps");
-
-                                    // Print the previous personal record
                                     int previousReps = 0;
                                     double previousWeight = 0.0;
                                     for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
@@ -246,9 +174,8 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                         if (repsObject != null && weightObject != null) {
                                             int reps = repsObject.intValue();
                                             double weight = weightObject.doubleValue();
-
-                                            // Check if this set has a higher reps and weight combo than the previous highest,
-                                            // but lower than the current highest
+                                            //check if this set has a higher reps and weight combo than the previous highest,
+                                            //but lower than the current highest
                                             if (weight > previousWeight && weight < highestWeight
                                                     || (weight == previousWeight && reps > previousReps && weight < highestWeight)
                                                     || (weight == highestWeight && reps < highestReps)) {
@@ -270,29 +197,21 @@ public class PersonalRecordsActivity extends AppCompatActivity {
                                     break;
                                 }
                             }
-
                             if (foundExercise) {
                                 break;
                             }
                         }
-
                         if (!foundExercise) {
                             System.out.println("Could not find exercise: " + exerciseName);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         // This method is called if the data retrieval is cancelled due to some error.
                         Log.d("TAG", "Data retrieval cancelled with error: " + databaseError.getMessage());
                     }
                 });
-
-
-
             }
         });
-
-
     }
 }

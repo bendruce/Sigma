@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE FOLDERS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 public class FolderItem {
     private String folderName;
@@ -8,6 +11,7 @@ public class FolderItem {
         this.numberOfWorkouts = numberOfWorkouts;
     }
 
+    //getters and setters
     public String getFolderName() {
         return folderName;
     }

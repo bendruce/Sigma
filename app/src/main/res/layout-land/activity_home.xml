@@ -38,7 +38,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Sigma"
                     android:textColor="#B89769"
-                    android:textSize="44sp"
+                    android:textSize="34sp"
                     app:layout_constraintEnd_toStartOf="@+id/viewPRButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -74,7 +74,7 @@
                     android:onClick="launchPRs"
                     android:text="View PRs"
                     android:textColor="#393E46"
-                    app:layout_constraintEnd_toStartOf="@+id/openGuideButton"
+                    app:layout_constraintEnd_toStartOf="@+id/openLinkButton"
                     app:layout_constraintStart_toEndOf="@+id/textView"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_conversion_absoluteHeight="48dp"
@@ -84,14 +84,24 @@
                     android:id="@+id/openGuideButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:backgroundTint="#222831"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/viewPRButton"
+                    app:layout_constraintStart_toEndOf="@+id/openLinkButton"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/info_gold" />
+
+                <ImageButton
+                    android:id="@+id/openLinkButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#222831"
+                    app:layout_constraintEnd_toStartOf="@+id/openGuideButton"
+                    app:layout_constraintStart_toEndOf="@+id/viewPRButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_open_in_browser_24" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE SET
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 public class Set {
@@ -12,6 +15,7 @@ public class Set {
         this.weight = weight;
     }
 
+    //getters and setters
     public int getSetNumber() {
         return setNumber;
     }

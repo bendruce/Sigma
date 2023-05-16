@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR A WORKOUT, USED BY A USER TO RECORD THEIR WORKOUT
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import android.util.Log;
@@ -16,11 +19,7 @@ public class Workout {
 
     public void addExercise(com.example.sigma.Exercise exercise) {
         exercises.add(exercise);
-
-        //Log.d("Workout", "Added exercise: " + exercise.getName());
-        //Log.d("Workout", "Number of exercises: " + exercises.size());
     }
-
 
     public ArrayList<com.example.sigma.Exercise> getExercises() {
         return exercises;

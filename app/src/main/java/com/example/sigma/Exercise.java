@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE EXERCISES WITHIN A WORKOUT
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ public class Exercise {
         this.sets = new ArrayList<>();
     }
 
-    // getters and setters
+    //getters and setters
     public String getName() {
         return name;
     }

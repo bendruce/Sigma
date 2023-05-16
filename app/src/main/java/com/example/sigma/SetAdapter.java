@@ -1,3 +1,6 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CODE FOR THE SET ADAPTER FOR THE RECYCLER VIEW WHICH HOLD SETS IN THE WORKOUT
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 package com.example.sigma;
 
 import android.text.Editable;
@@ -39,59 +42,55 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetViewHolder> {
         setsReps.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // do nothing
+                //do nothing
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // update the reps value in the corresponding Set object
+                //update the reps value in the corresponding Set object
                 try {
                     int reps = Integer.parseInt(s.toString());
                     int position = holder.getAdapterPosition();
                     Set set = sets.get(position);
                     set.setReps(reps);
                 } catch (NumberFormatException e) {
-                    // Handle the error, e.g. show a toast message
                     Toast.makeText(holder.itemView.getContext(), "Please enter a valid number", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // do nothing
+                //do nothing
             }
         });
 
 
-            // Add a TextWatcher to the weight EditText
+            //add a TextWatcher to the weight EditText
             EditText setsWeight = holder.itemView.findViewById(R.id.setsWeight);
             setsWeight.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // do nothing
+                    //do nothing
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // update the weight value in the corresponding Set object
+                    //update the weight value in the corresponding Set object
                     try {
                         double weight = Double.parseDouble(s.toString());
                         int position = holder.getAdapterPosition();
                         Set set = sets.get(position);
                         set.setWeight(weight);
                     } catch (NumberFormatException e) {
-                        // Handle the error, e.g. show a toast message
                         Toast.makeText(holder.itemView.getContext(), "Please enter a valid number", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // do nothing
+                    //do nothing
                 }
             });
         }
-
 
     @Override
     public int getItemCount() {
